@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neel Patel - OpenSesame Creative Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #a79333 0%, #7ba24b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .presentation {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            align-content: center;
+        }
+        
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 400px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #a79333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            color: #7ba24b;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #a79333;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #a79333;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+        
+        p {
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a7933320 0%, #7ba24b20 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #a79333;
+        }
+        
+        ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+        
+        .emoji {
+            font-size: 1.3em;
+            margin-right: 8px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #a79333 0%, #7ba24b 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-counter {
+            color: #a79333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .intro-slide {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .intro-slide h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .intro-slide .subtitle {
+            font-size: 1.3em;
+            color: #7ba24b;
+            margin-bottom: 30px;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, #a79333 0%, #7ba24b 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .journey-timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+        
+        .journey-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #a79333 0%, #7ba24b 100%);
+        }
+        
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #a79333;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #a79333;
+        }
+        
+        .timeline-item strong {
+            color: #a79333;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .vision-card {
+            background: linear-gradient(135deg, #a7933315 0%, #7ba24b15 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #a7933330;
+        }
+        
+        .vision-card h4 {
+            color: #a79333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+                min-height: 500px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            .navigation {
+                padding: 15px 30px;
+            }
+            
+            .vision-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active intro-slide">
+            <h1>Building the Future of Learning</h1>
+            <p class="subtitle">Neel Patel | OpenSesame Engineering Internship 2025</p>
+            <p style="color: #666; max-width: 900px; margin-top: 20px; align-items: center;">
+                A journey from warehouse automation via robotics to AI-powered workforce development
+            </p>
+        </div>
+
+        <!-- Slide 2: Question 1 - Career Journey -->
+        <div class="slide">
+            <h2><span class="emoji">🎯</span>How OpenSesame Fits My Journey</h2>
+            
+            <div class="journey-timeline">
+                <div class="timeline-item">
+                    <strong>IIT Gandhinagar & Johns Hopkins University → Robotics Research</strong>
+                    <p>Built autonomous systems and worked on tactile sensing at Johns Hopkins. Learned how intelligent systems can amplify human capabilities.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <strong>GreyOrange → 800 Robot Orchestration</strong>
+                    <p>Optimized algorithms managing hundreds of robots in real-time. Reduced task completion time by 40% through better coordination and traffic management.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <strong>Kotak Bank → Financial Platform at Scale</strong>
+                    <p>Built notification systems and UPI services for millions of users. Improved payment response time by 250ms through architectural optimization.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <strong>University of Maryland → AI & Software Engineering Focus</strong>
+                    <p>Currently pursuing MEng with focus on LLM, Agentic AI, and MCP. Excited to apply cutting-edge AI to solve real-world problems.</p>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>Why OpenSesame?</h3>
+                <p>Your mission resonates deeply: I've seen how the right tools transform performance—whether it's robots completing warehouse tasks efficiently or banking systems serving millions seamlessly. OpenSesame applies this same principle to human potential. You're building AI-powered infrastructure that doesn't just deliver content, but intelligently curates learning pathways to help people grow.</p>
+                <p><strong>This intersection of EdTech + AI + Impact is exactly where I want to be.</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Question 2 - What I Bring -->
+        <div class="slide">
+            <h2><span class="emoji">💡</span>What I Bring to OpenSesame</h2>
+            
+            <h3>1. Backend Systems Expertise with AI Context</h3>
+            <div class="tech-stack">
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">AWS</span>
+                <span class="tech-badge">PostgreSQL</span>
+                <span class="tech-badge">Docker</span>
+                <span class="tech-badge">Kubernetes</span>
+                <span class="tech-badge">LLM</span>
+                <span class="tech-badge">Agentic AI</span>
+            </div>
+            <p>I've built production systems handling millions of transactions and real-time coordination of 800+ robots. I understand scalability, reliability, and the architectural decisions that make systems work at scale. Now I'm actively learning how to integrate AI agents and LLMs into these architectures.</p>
+
+            <h3>2. Problem-Solving Under Constraints</h3>
+            <p><strong>Example:</strong> At GreyOrange, I diagnosed critical overcharging issues affecting hundreds of robots—potential losses in the millions. By analyzing system logs and tracing battery management code, I identified the root cause and implemented fixes that prevented operational failures.</p>
+            <p>At Kotak, I reduced memory consumption by 30% by identifying redundant Feign client instantiation—a small architectural change with significant impact.</p>
+
+            <h3>3. Collaborative Mindset + XP Enthusiasm</h3>
+            <p>I've thrived in agile environments, refactoring monolithic systems into microservices with cross-functional teams. Your emphasis on pair programming and continuous learning aligns perfectly with how I've grown most—through collaboration and feedback loops.</p>
+
+            <h3>4. Unique Perspective: Robotics → Software → AI</h3>
+            <p>My journey from building physical robots to optimizing distributed systems to now exploring AI gives me a systems-thinking perspective. I see how components interact, where bottlenecks emerge, and how AI can be intelligently integrated rather than bolted on.</p>
+        </div>
+
+        <!-- Slide 4: Question 3 - AI Vision -->
+        <div class="slide">
+            <h2><span class="emoji">🚀</span>What Excites Me About AI in Learning</h2>
+            
+            <h3>The Personalization Revolution</h3>
+            <p>Traditional learning treats everyone the same—like running the same algorithm for every warehouse configuration. But AI enables adaptive systems that understand context, learn from patterns, and optimize for individual needs.</p>
+
+            <div class="vision-grid">
+                <div class="vision-card">
+                    <h4>🎯 Skills-Based Curation</h4>
+                    <p>AI can analyze skill gaps and recommend precise learning pathways—not just courses, but the right sequence at the right time.</p>
+                </div>
+                
+                <div class="vision-card">
+                    <h4>🌍 Breaking Language Barriers</h4>
+                    <p>Multilingual AI can democratize access to quality content, making learning truly global and inclusive.</p>
+                </div>
+                
+                <div class="vision-card">
+                    <h4>⚡ Real-Time Adaptation</h4>
+                    <p>Just as robots adjust paths based on obstacles, AI tutors can adjust teaching strategies based on learner feedback.</p>
+                </div>
+                
+                <div class="vision-card">
+                    <h4>🔍 Intelligent Content Discovery</h4>
+                    <p>With 60,000+ courses, finding the right one is overwhelming. AI can be the intelligent guide that understands intent and context.</p>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>What Really Excites Me</h3>
+                <p><strong>Agentic AI in Learning Systems:</strong> Imagine AI agents that don't just recommend courses but actively monitor skill development, suggest projects, connect learners with mentors, and adapt entire learning journeys in real-time. This isn't science fiction—with MCP, LLMs, and the right architecture, we're building this now.</p>
+                
+                <p><strong>The Challenge I Want to Solve:</strong> How do we ensure AI enhances learning without replacing the human connection? How do we build systems that are intelligent enough to be helpful but humble enough to know when a human touch is needed?</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Closing -->
+        <div class="slide">
+            <h2><span class="emoji">🤝</span>Let's Build Together</h2>
+            
+            <p style="font-size: 1.2em; margin-bottom: 30px;">
+                OpenSesame is building infrastructure for human potential. That's the most meaningful kind of engineering.
+            </p>
+
+            <div class="highlight">
+                <h3>What I'm Most Excited About</h3>
+                <ul>
+                    <li><strong>Pair programming with your XP team</strong> – Learning from experienced engineers while contributing fresh perspectives</li>
+                    <li><strong>Working on AI-powered features</strong> – Applying my LLM/Agentic AI learning to real products that help people grow</li>
+                    <li><strong>Contributing to your tech stack</strong> – TypeScript, React, AWS, Terraform—I'm comfortable here and eager to go deeper</li>
+                    <li><strong>Remote-first culture</strong> – I've worked remotely at GreyOrange and Kotak; I know how to stay connected and productive</li>
+                </ul>
+            </div>
+
+            <h3 style="margin-top: 40px;">My Commitment</h3>
+            <p>I'll bring curiosity, technical rigor, and a genuine passion for building systems that help people unlock their potential. I'm ready to learn fast, contribute meaningfully, and help OpenSesame continue transforming workforce development.</p>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="color: #a79333; font-size: 1.3em; font-weight: 600;">
+                    Let's open new doors together.
+                </p>
+                <p style="color: #666; margin-top: 15px;">
+                    📧 neelp27@umd.edu | 🌐 neel3998.github.io/Portfolio | 📱 240-854-8750
+                </p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">5</span>
+            </span>
+            <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
